@@ -359,9 +359,7 @@ server.use(cors());
 
 server.use(bodyParser.json());
 
-server.use("/api", router);
-
-server.post("/login", (req, res) => {
+server.post("/api/auth/login", (req, res) => {
   const { email } = req.body;
   const db = router.db; // access to lowdb instance
   const user = db.get("profiles").find({ email }).value();
@@ -388,7 +386,7 @@ server.post("/login", (req, res) => {
 });
 
 // In your json-server setup file
-server.post("/register", (req, res) => {
+server.post("/api/auth/register", (req, res) => {
   const { email, password, name } = req.body;
   const db = router.db; // access to lowdb instance
 
@@ -464,6 +462,8 @@ server.get("/api/charts/cost", (req, res) => {
     ],
   });
 });
+
+server.use("/api", router);
 
 server.use(middlewares);
 server.use(router);
